@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=djangodeploy
+Group=www-data
+WorkingDirectory=/home/djangodeploy/portfolio-project
+ExecStart=/home/djangodeploy/myvenv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/home/djangodeploy/portfolio-project/portfolio-project.sock
+          portfolio.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
